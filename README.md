@@ -1,2 +1,9 @@
 # cl-fuzzer
-An input fuzzer written in Common Lisp
+### _k1d77a_
+
+This is a project to do ... something.
+
+## License
+
+MIT
+
