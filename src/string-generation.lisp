@@ -1,29 +1,33 @@
-;;;;this file contains all the functions required to generate strings
+;;;;this file contains all the functions required to generate a random list that will
+;;;;be passed to a function that jams it down a stream
 
 (in-package :cl-fuzzer)
 
-
-;;imagine an input like "[a3][b3][c3][1..3]" would return "aaabbbccc123" etc
-;;imagine an input like '((3 "ab32a")(24 :null)(1 25))
 (defparameter *test-input*
   '((:string "start")(:repeat 3 "ab32a")(:repeat 24 :nul)(:repeat 10 :LF)(:upto 1 25)(:downto 25 0)
     (:char 1 #\Newline)(:random-string 5)(:string "stop")))
 
+;;;Important note that all functions return lists of characters/numbers
 
 (defparameter *special-asciis*
+  ;;generated programmatically but the keyword names are the official ascii ones from
+  ;;https://www.asciitable.com/
   '((:NUL #\Nul) (:SOH #\Soh) (:STX #\Stx) (:ETX #\Etx) (:EOT #\Eot) (:ENQ #\Enq)
     (:ACK #\Ack) (:BEL #\Bel) (:BS #\Backspace) (:TAB #\Tab) (:LF #\Newline)
     (:VT #\Vt) (:FF #\Page) (:CR #\Return) (:SO #\So) (:SI #\Si) (:DLE #\Dle)
     (:DC1 #\Dc1) (:DC3 #\Dc2) (:DC3 #\Dc3) (:DC4 #\Dc4) (:NAK #\Nak) (:SYN #\Syn)
     (:ETB #\Etb) (:CAN #\Can) (:EM #\Em) (:SUB #\Sub) (:ESC #\Esc) (:FS #\Fs)
     (:GS #\Gs) (:RS #\Rs) (:US #\Us) (:SPACE #\ )(:DEL #\Rubout)))
+
 (defun random-string-list (len)
+  "creates a string of random contents generated from the alphabet of length len. and 
+returns it as a list of char-codes"
   (let ((chars "abcdefghijklmnopqrstuvwxyz"))
     (map 'list #'char-code
          (loop :for x :from 0 :to len
                :collect (aref chars (random 25))))))
 (defun string-repeat (n string)
-  "repeats string n times"
+  "repeats string n times and converts to a list of char-codes"
   (let ((str ""))
     (map 'list #'char-code
          (dotimes (x n str)
@@ -70,6 +74,8 @@
       form
     (random-string-list n)))
 (defun generate-fuzzy-list (form)
+  "Creates a list from form of char-codes. Takes in an alist of keywords (for an example see 
+*test-input*) and outputs a list of all the char-codes in one long list"
   (reduce #'append
           (mapcar (lambda (form)
                     (let ((command (first form)))
@@ -82,6 +88,8 @@
                         (:random-string (handle-random-string (rest form))))))
                   form)))
 (defun fuzzy-list-to-fuzzy-string (fuzzy-list)
+  "takes in a fuzzy list and returns a string, however any null bytes will just be converted to nil
+so its mostly just for aesthetic reasons"
   (map 'string #'code-char fuzzy-list))
 
 

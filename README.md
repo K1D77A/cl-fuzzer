@@ -9,7 +9,7 @@ MIT
 
 ## Current doc
 Generating random characters is quite easy. You simply pass an alist of keywords and args to (generate-fuzzy-list ..).
-Assume that a variable called *test-input* has been made
+Assume that a variable called \*test-input\* has been made
 ```lisp
 (defparameter *test-input*
   '((:string "start")(:repeat 3 "ab32a")(:repeat 24 :nul)(:repeat 10 :LF)(:upto 1 25)(:downto 25 0)
