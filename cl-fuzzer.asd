@@ -5,7 +5,9 @@
   :author "k1d77a"
   :license  "MIT"
   :version "0.0.1"
+  :depends-on (:cl-ppcre)
   :serial t
   :pathname "src"
   :components ((:file "package")
+               (:file "string-generation")
                (:file "cl-fuzzer")))
