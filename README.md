@@ -8,7 +8,7 @@ This project is a simple stream fuzzer. You generate random sequences and then j
 MIT
 
 ## Current doc
-Generating random characters is quite easy. 
+Generating random characters is quite easy. You simply pass an alist of keywords and args to (generate-fuzzy-list ..).
 Assume that a variable called *test-input* has been made
 ```lisp
 (defparameter *test-input*
@@ -16,7 +16,7 @@ Assume that a variable called *test-input* has been made
     (:char 1 #\Newline)(:random-string 5)(:string "stop")))
     
 ```
-Now call (generate-fuzzy-list *test-input*)
+Now call (generate-fuzzy-list \*test-input\*)
 ```lisp
 CL-FUZZER> (generate-fuzzy-list *test-input*)
 (115 116 97 114 116 97 98 51 50 97 97 98 51 50 97 97 98 51 50 97 0 0 0 0 0 0 0
