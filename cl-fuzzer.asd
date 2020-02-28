@@ -5,7 +5,8 @@
   :author "k1d77a"
   :license  "MIT"
   :version "0.0.1"
-  :depends-on (:cl-ppcre)
+  :depends-on (:cl-ppcre
+               :usocket)
   :serial t
   :pathname "src"
   :components ((:file "package")
