@@ -25,27 +25,32 @@ returns it as a list of char-codes"
   (let ((chars "abcdefghijklmnopqrstuvwxyz"))
     (map 'list #'char-code
          (loop :for x :from 0 :to len
-               :collect (aref chars (random 25))))))
+               :collect (aref chars (random 26))))))
+
 (defun string-repeat (n string)
   "repeats string n times and converts to a list of char-codes"
   (let ((str ""))
     (map 'list #'char-code
          (dotimes (x n str)
            (setf str (concatenate 'string str string))))))
+
 (defun special-char-repeat (n char)
   (string-repeat n (string char)))
+
 (defun n..x (n x)
   "Generates the numbers from n upto x. n must be greater than 0 and n must be less than 255"
   (if (and (>= n 0) (<= x 255) (< n x))
       (loop :for i :from n :to x
             :collect i)
       (error "N is less than 0 or X is greater than 255")))
+
 (defun x..n (x n)
   "Generates the numbers from x downto n. n must be greater than 0 and n must be less than 255"
   (if (and (>= x 0) (<= n 255)(> x n))
       (loop :for i :from x :downto n
             :collect i)
       (error "N is less than 0 or X is greater than 255")))
+
 (defun handle-repeat (form)
   (destructuring-bind (n repeat)
       form
@@ -57,22 +62,27 @@ returns it as a list of char-codes"
   (destructuring-bind (x y)
       form
     (n..x x y)))
+
 (defun handle-downto (form)
   (destructuring-bind (x y)
       form
     (x..n x y)))
+
 (defun handle-string (form)
   (destructuring-bind (string)
       form
     (string-repeat 1 string)))
+
 (defun handle-char (form)
   (destructuring-bind (n char)
       form
     (string-repeat n (string char))))
+
 (defun handle-random-string (form)
   (destructuring-bind (n)
       form
     (random-string-list n)))
+
 (defun generate-fuzzy-list (form)
   "Creates a list from form of char-codes. Takes in an alist of keywords (for an example see 
 *test-input*) and outputs a list of all the char-codes in one long list"
@@ -87,6 +97,7 @@ returns it as a list of char-codes"
                         (:downto (handle-downto (rest form)))
                         (:random-string (handle-random-string (rest form))))))
                   form)))
+
 (defun fuzzy-list-to-fuzzy-string (fuzzy-list)
   "takes in a fuzzy list and returns a string, however any null bytes will just be converted to nil
 so its mostly just for aesthetic reasons"
