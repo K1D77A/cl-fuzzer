@@ -37,14 +37,14 @@ returns it as a list of char-codes"
 (defun special-char-repeat (n char)
   (string-repeat n (string char)))
 
-(defun n..x (n x)
+(defun n-upto-x (n x)
   "Generates the numbers from n upto x. n must be greater than 0 and n must be less than 255"
   (if (and (>= n 0) (<= x 255) (< n x))
-      (loop :for i :from n :to x
+      (loop :for i :from n :upto x
             :collect i)
       (error "N is less than 0 or X is greater than 255")))
 
-(defun x..n (x n)
+(defun x-downto-n (x n)
   "Generates the numbers from x downto n. n must be greater than 0 and n must be less than 255"
   (if (and (>= x 0) (<= n 255)(> x n))
       (loop :for i :from x :downto n
@@ -61,12 +61,12 @@ returns it as a list of char-codes"
 (defun handle-upto (form)
   (destructuring-bind (x y)
       form
-    (n..x x y)))
+    (n-upto-x x y)))
 
 (defun handle-downto (form)
   (destructuring-bind (x y)
       form
-    (x..n x y)))
+    (x-downto-n x y)))
 
 (defun handle-string (form)
   (destructuring-bind (string)
@@ -86,7 +86,7 @@ returns it as a list of char-codes"
 (defun generate-fuzzy-list (form)
   "Creates a list from form of char-codes. Takes in an alist of keywords (for an example see 
 *test-input*) and outputs a list of all the char-codes in one long list"
-  (reduce #'append
+  (reduce #'append 
           (mapcar (lambda (form)
                     (let ((command (first form)))
                       (case command
@@ -96,7 +96,8 @@ returns it as a list of char-codes"
                         (:upto (handle-upto (rest form)))
                         (:downto (handle-downto (rest form)))
                         (:random-string (handle-random-string (rest form))))))
-                  form)))
+                  form)
+          :from-end t))
 
 (defun fuzzy-list-to-fuzzy-string (fuzzy-list)
   "takes in a fuzzy list and returns a string, however any null bytes will just be converted to nil
