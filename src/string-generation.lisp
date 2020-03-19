@@ -64,7 +64,7 @@ returns it as a list of char-codes"
 (defun handle-integer (form)
   (destructuring-bind (n)
       form
-    n))
+    (list n)))
 
 (defun handle-upto (form)
   (destructuring-bind (x y)
