@@ -5,4 +5,6 @@
   (:export #:generate-fuzzy-list
            #:fuzzy-list-to-fuzzy-string
            #:fuzz
-           #:*test-input*))
+           #:*test-input*
+           #:connect-to-remote-tcp
+           #:make-connection))

@@ -89,14 +89,10 @@ it'll read all it can from the stream and set (received con) to that"
           nil))))
 
 
-(defun fuzz (ip port sleep stagger form)
-  (let* ((list (generate-fuzzy-list form))
-         (con (connect-to-remote-tcp (make-connection ip port))))
-    (print list)
-    (sleep 1)
+(defmethod fuzz ((con connection) sleep stagger form)
+  (let ((list (generate-fuzzy-list form)))
     (tcp-staggered-and-timed-send con list
                                   :stagger stagger
                                   :sleep sleep)
-    (sleep 1)
     (read-all-from-stream-if-can con)
     con))
