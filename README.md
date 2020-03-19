@@ -32,6 +32,7 @@ The current supported keywords and what they do are:
 :repeat <n> <string> repeats string n times also accepts a special keyword representing an ascii 
 character
 :upto <n> <x> generates numbers from n to x. n must be 0 or greater, and x must be 255 or lower and greater than n
+:integer <n> puts the integer n, can't be more than 255 or less than 0
 :downto <x> <n> the opposite of upto, so generates from x downto n
 :char <n> <char> repeats Char n times
 :randomstring <n> generates a random string from the alphabet of length n

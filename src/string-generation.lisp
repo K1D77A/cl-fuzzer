@@ -58,6 +58,14 @@ returns it as a list of char-codes"
         (special-char-repeat n (second  (assoc repeat *special-asciis*)))
         (string-repeat n repeat))))
 
+(defun valid-integer-p (n)
+  (and (>= n 0) (<= n 255)))
+
+(defun handle-integer (form)
+  (destructuring-bind (n)
+      form
+    n))
+
 (defun handle-upto (form)
   (destructuring-bind (x y)
       form
@@ -93,6 +101,7 @@ returns it as a list of char-codes"
                         (:string (handle-string (rest form)))
                         (:char (handle-char (rest form)))
                         (:repeat (handle-repeat (rest form)))
+                        (:integer (handle-integer (rest form)))
                         (:upto (handle-upto (rest form)))
                         (:downto (handle-downto (rest form)))
                         (:random-string (handle-random-string (rest form))))))
