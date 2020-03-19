@@ -24,7 +24,7 @@
 returns it as a list of char-codes"
   (let ((chars "abcdefghijklmnopqrstuvwxyz"))
     (map 'list #'char-code
-         (loop :for x :from 0 :to len
+         (loop :for x :from 0 :below len
                :collect (aref chars (random 26))))))
 
 (defun string-repeat (n string)
