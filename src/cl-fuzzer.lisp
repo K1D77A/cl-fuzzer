@@ -60,12 +60,10 @@
     (handler-case 
         (loop :for char-code :in list-to-send
               :for x := 0 :then (1+ x)
-              
               :do (read-all-from-stream-if-can con)
               :when (zerop (mod x stagger))
                 :do (sleep sleep)
               :do (write-byte char-code stream)
-                  (print char-code)
                   (force-output stream))
       (SB-INT:SIMPLE-STREAM-ERROR ()))))
 
